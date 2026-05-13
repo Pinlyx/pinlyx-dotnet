@@ -1,0 +1,76 @@
+name: NuGet publish
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 0.1.0-alpha.1)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: pack & push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Determine version
+        id: ver
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Restore
+        run: dotnet restore CrmSolid.sln
+
+      - name: Build (library only)
+        run: dotnet build src/CrmSolid/CrmSolid.csproj -c Release --no-restore /p:Version=${{ steps.ver.outputs.version }}
+
+      - name: Test
+        run: dotnet test CrmSolid.sln -c Release
+
+      - name: Pack
+        run: dotnet pack src/CrmSolid/CrmSolid.csproj -c Release --no-build -o nupkgs /p:Version=${{ steps.ver.outputs.version }}
+
+      - name: Push to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "NUGET_API_KEY secret is not set — aborting." >&2
+            exit 1
+          fi
+          for f in nupkgs/*.nupkg nupkgs/*.snupkg; do
+            [ -f "$f" ] || continue
+            echo "Pushing $f"
+            dotnet nuget push "$f" \
+              --api-key "$NUGET_API_KEY" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done
+
+      - name: Upload nupkg artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nupkgs
+          path: nupkgs/*.*nupkg
