@@ -7,7 +7,7 @@
 
 Official **.NET SDK** for the [CRM Solid](https://crmsolid.com) omnichannel AI CRM platform.
 
-- ✅ Strongly-typed clients for the public REST API v1 (`/v1/*`)
+- ✅ Strongly-typed clients for the public REST API v1 (`/v1/*`) — contacts, deals, tasks, finance (read-only), email inbox, Telegram messaging
 - ✅ Bearer token auth (`csk_<env>_<key>`) and HMAC signing for legacy `/public/*`
 - ✅ `IAsyncEnumerable` cursor pagination
 - ✅ Automatic 429 retry honoring `Retry-After` / `X-RateLimit-Reset`
@@ -52,6 +52,25 @@ var job = await client.TelegramMessages.SendAsync(new SendMessageRequest
     Text = "Hello from the SDK!",
 });
 Console.WriteLine($"Queued job {job.Id} ({job.Status}).");
+
+// Sales pipeline, tasks and read-only finance
+var deals = await client.Deals.ListAsync(stage: "negotiation");
+await client.Tasks.CreateAsync(new CreateTaskRequest
+{
+    Title = "Follow up with Acme",
+    DueAt = DateTimeOffset.UtcNow.AddDays(1),
+});
+var finance = await client.Finance.GetSummaryAsync(range: "30d");
+foreach (var t in finance.Totals)
+    Console.WriteLine($"{t.Currency}: net {t.Net}");
+
+// Email inbox — read + workflow only (no sending)
+await foreach (var thread in client.Email.StreamThreadsAsync(status: "open"))
+    Console.WriteLine($"[{thread.Status}] {thread.Subject}");
+
+// CRM depth: tag, score and assign a contact
+await client.Contacts.AddTagAsync(contactId: 101, tagName: "VIP");
+await client.Contacts.SetLeadScoreAsync(contactId: 101, score: 85);
 ```
 
 Get an API key from your [CRM Solid dashboard](https://app.crmsolid.com/settings/developers). Token format: `csk_<env>_<12-char-keyId><32-char-secret>`.
@@ -70,7 +89,7 @@ var client = new CrmSolidClient("csk_live_...");
 var client = new CrmSolidClient(new CrmSolidOptions { ApiKey = "csk_live_..." });
 ```
 
-Each key is issued with a fixed set of scopes (`contacts:read`, `contacts:write`, `telegram:send`, `telegram:read`). Operations that need a scope your key doesn't have throw `CrmSolidForbiddenException`.
+Each key is issued with a fixed set of scopes — e.g. `contacts:read`/`contacts:write`, `telegram:send`/`telegram:read`, `deals:read`/`deals:write`, `tasks:read`/`tasks:write`, `finance:read`, and `email:read`/`email:write` (use the constants in `CrmSolid.Models.Scopes`). Operations that need a scope your key doesn't have throw `CrmSolidForbiddenException`.
 
 ### HMAC (for legacy `/public/*` endpoints)
 

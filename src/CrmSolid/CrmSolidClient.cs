@@ -31,6 +31,18 @@ public sealed class CrmSolidClient
     /// <summary>Outbound Telegram messaging (<c>/v1/telegram/messages</c>).</summary>
     public TelegramMessagesResource TelegramMessages { get; }
 
+    /// <summary>Sales pipeline deals (<c>/v1/deals</c>).</summary>
+    public DealsResource Deals { get; }
+
+    /// <summary>CRM tasks / reminders (<c>/v1/tasks</c>).</summary>
+    public TasksResource Tasks { get; }
+
+    /// <summary>Read-only finance + revenue (<c>/v1/finance/*</c>).</summary>
+    public FinanceResource Finance { get; }
+
+    /// <summary>Email inbox threads (<c>/v1/email/threads</c>).</summary>
+    public EmailResource Email { get; }
+
     /// <summary>MCP JSON-RPC endpoint (<c>POST /mcp</c>).</summary>
     public McpClient Mcp { get; }
 
@@ -62,6 +74,10 @@ public sealed class CrmSolidClient
         Me = new MeResource(inner);
         Contacts = new ContactsResource(inner);
         TelegramMessages = new TelegramMessagesResource(inner);
+        Deals = new DealsResource(inner);
+        Tasks = new TasksResource(inner);
+        Finance = new FinanceResource(inner);
+        Email = new EmailResource(inner);
         Mcp = new McpClient(inner);
     }
 

@@ -46,6 +46,24 @@ internal sealed class CrmSolidHttpClient
         return await SendAndParseAsync<TResponse>(req, cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<TResponse> PutJsonAsync<TRequest, TResponse>(
+        string path,
+        TRequest body,
+        CancellationToken cancellationToken)
+    {
+        using var req = new HttpRequestMessage(HttpMethod.Put, path)
+        {
+            Content = CreateJsonContent(body)
+        };
+        return await SendAndParseAsync<TResponse>(req, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<TResponse> DeleteAsync<TResponse>(string path, CancellationToken cancellationToken)
+    {
+        using var req = new HttpRequestMessage(HttpMethod.Delete, path);
+        return await SendAndParseAsync<TResponse>(req, cancellationToken).ConfigureAwait(false);
+    }
+
     private static StringContent CreateJsonContent<T>(T body)
     {
         var json = JsonSerializer.Serialize(body, CrmSolidJson.Default);
