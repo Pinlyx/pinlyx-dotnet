@@ -102,6 +102,7 @@ public sealed class ContactsResource
     internal sealed record ScoreBody(int Score);
     internal sealed record AssignBody(int? UserId);
     internal sealed record ActivityBody(string Body);
+    internal sealed record StageBody(string Stage);
 
     /// <summary>Lists the user's tag dictionary with per-tag contact counts (<c>GET /v1/tags</c>).</summary>
     public async Task<IReadOnlyList<TagWithCount>> ListTagDictionaryAsync(CancellationToken cancellationToken = default)
@@ -155,6 +156,18 @@ public sealed class ContactsResource
         => _http.PutJsonAsync<AssignBody, Contact>(
             "v1/contacts/" + contactId.ToString(CultureInfo.InvariantCulture) + "/assignee",
             new AssignBody(userId), cancellationToken);
+
+    /// <summary>
+    /// Moves a contact along its sales pipeline. Accepts
+    /// <c>novalue|lead|conversation|proposal|negotiation|won|lost</c>. Logs a StageChanged activity.
+    /// </summary>
+    public Task<Contact> SetStageAsync(int contactId, string stage, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrEmpty(stage)) throw new ArgumentException("stage is required", nameof(stage));
+        return _http.PostJsonAsync<StageBody, Contact>(
+            "v1/contacts/" + contactId.ToString(CultureInfo.InvariantCulture) + "/stage",
+            new StageBody(stage), cancellationToken);
+    }
 
     /// <summary>Returns a contact's activity timeline (newest first).</summary>
     public async Task<IReadOnlyList<ContactActivity>> ListActivitiesAsync(int contactId, int limit = 50, CancellationToken cancellationToken = default)

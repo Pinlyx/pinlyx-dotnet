@@ -9,9 +9,14 @@ using CrmSolid.Models;
 
 namespace CrmSolid.Resources;
 
-/// <summary>Read-only finance + revenue. Backed by <c>/v1/finance/*</c>. No write operations exist.</summary>
+/// <summary>
+/// Finance + revenue. Backed by <c>/v1/finance/*</c>. Reads require <c>finance:read</c>;
+/// recording transactions and paying invoices require <c>finance:write</c> (off by default).
+/// </summary>
 public sealed class FinanceResource
 {
+    private static readonly object EmptyBody = new();
+
     private readonly CrmSolidHttpClient _http;
 
     internal FinanceResource(CrmSolidHttpClient http) { _http = http; }
@@ -62,6 +67,18 @@ public sealed class FinanceResource
     /// <summary>Lists configured external revenue sources (secrets are never returned).</summary>
     public Task<RevenueSourceList> ListRevenueSourcesAsync(CancellationToken cancellationToken = default)
         => _http.GetAsync<RevenueSourceList>("v1/finance/revenue-sources", cancellationToken);
+
+    /// <summary>Records a ledger transaction. Requires <c>finance:write</c>.</summary>
+    public Task<Transaction> CreateTransactionAsync(CreateTransactionRequest request, CancellationToken cancellationToken = default)
+    {
+        if (request is null) throw new ArgumentNullException(nameof(request));
+        return _http.PostJsonAsync<CreateTransactionRequest, Transaction>("v1/finance/transactions", request, cancellationToken);
+    }
+
+    /// <summary>Marks an invoice paid (idempotent). Requires <c>finance:write</c>.</summary>
+    public Task<Invoice> MarkInvoicePaidAsync(int invoiceId, CancellationToken cancellationToken = default)
+        => _http.PostJsonAsync<object, Invoice>(
+            "v1/finance/invoices/" + invoiceId.ToString(CultureInfo.InvariantCulture) + "/pay", EmptyBody, cancellationToken);
 
     /// <summary>Streams every transaction across all pages using cursor pagination.</summary>
     public async IAsyncEnumerable<Transaction> StreamTransactionsAsync(

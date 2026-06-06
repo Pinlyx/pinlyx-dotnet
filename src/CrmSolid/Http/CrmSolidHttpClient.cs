@@ -58,6 +58,19 @@ internal sealed class CrmSolidHttpClient
         return await SendAndParseAsync<TResponse>(req, cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<TResponse> PatchJsonAsync<TRequest, TResponse>(
+        string path,
+        TRequest body,
+        CancellationToken cancellationToken)
+    {
+        // HttpMethod.Patch is not in netstandard2.0 — construct it explicitly so all targets build.
+        using var req = new HttpRequestMessage(new HttpMethod("PATCH"), path)
+        {
+            Content = CreateJsonContent(body)
+        };
+        return await SendAndParseAsync<TResponse>(req, cancellationToken).ConfigureAwait(false);
+    }
+
     public async Task<TResponse> DeleteAsync<TResponse>(string path, CancellationToken cancellationToken)
     {
         using var req = new HttpRequestMessage(HttpMethod.Delete, path);

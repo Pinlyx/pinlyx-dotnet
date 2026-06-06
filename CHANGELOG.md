@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0-alpha.1] — 2026-06-06
+
+A large surface expansion bringing the SDK up to the platform's real capacity. Everything
+remains scope-gated and safe-write — destructive operations are still intentionally absent.
+
+### Added
+- **Tier 1 — typed coverage of already-granted capabilities** (no new scopes):
+  - `TwitterMessages` — send X DMs (`twitter:send`) and search stored DMs.
+  - `Sequences` — list / inspect / pause / resume campaigns (`sequences:read`/`write`).
+  - `Analytics` — dashboard summary, messaging stats, top contacts (`analytics:read`).
+  - `Conversations` — recent conversations + paginated message threads (`contacts:read`).
+  - `Accounts` — connected Telegram + Twitter accounts (`contacts:read`).
+  - `Contacts.SetStageAsync` — move a contact along its pipeline (`contacts:write`).
+- **Tier 2 — new read / safe-write scopes**:
+  - `Pipelines` — read boards + stages (`pipelines:read`).
+  - `Webhooks` — register / rotate / test / delete endpoints + read deliveries
+    (`webhooks:read`/`write`), plus `CrmSolid.Webhooks.WebhookSignature` to verify the
+    `X-Webhook-Signature` header (HMAC-SHA256, constant-time).
+  - `AiAgents` — list, inspect, and run the test playground without sending
+    (`agents:read`/`agents:run`).
+  - `Jobs` — read the outbound message-job monitor (`jobs:read`).
+- **Tier 3 — powerful scopes, off by default** (grant deliberately):
+  - `Finance.CreateTransactionAsync` / `MarkInvoicePaidAsync` (`finance:write`).
+  - `Email.ReplyAsync` — send a reply inside a thread (`email:send`).
+  - `Deals.CloseAsync` — close a deal as won; books revenue, so it requires BOTH
+    `deals:write` AND `finance:write`.
+  - `ApiKeys` — self-service list / mint / revoke, attenuated to the parent key's scopes
+    (`keys:manage`).
+- 11 new scope constants in `Scopes` (`PipelinesRead`, `WebhooksRead`/`Write`,
+  `AgentsRead`/`Run`, `JobsRead`, `FinanceWrite`, `EmailSend`, `KeysManage`).
+- `PATCH` support in the internal HTTP client.
+
+### Notes
+- New default-granted scopes: pipelines/webhooks/agents/jobs. `finance:write`, `email:send`
+  and `keys:manage` are NOT default — request them explicitly when creating a key.
+- Minted keys are attenuated (a key can never grant a scope it doesn't hold, nor `*`).
+
 ## [0.2.0-alpha.1] — 2026-06-02
 
 ### Added
@@ -47,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 23 unit tests covering auth, HMAC signing, rate-limit handler, resource shapes,
   pagination, and error mapping.
 
-[Unreleased]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.2.0-alpha.1...HEAD
+[Unreleased]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.3.0-alpha.1...HEAD
+[0.3.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.2.0-alpha.1...v0.3.0-alpha.1
 [0.2.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.1.0-alpha.1...v0.2.0-alpha.1
 [0.1.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/releases/tag/v0.1.0-alpha.1

@@ -7,8 +7,9 @@
 
     <PackageId>CrmSolid</PackageId>
     <Title>CRM Solid .NET SDK</Title>
-    <Description>Official .NET SDK for the CRM Solid omnichannel AI CRM platform. Strongly-typed clients for the public REST API v1 (Bearer auth) — contacts, deals, tasks, read-only finance, email inbox, Telegram messaging — and HMAC-signed /public endpoints, plus an MCP client wrapper. Multi-targets netstandard2.0, net8.0, and net9.0.</Description>
-    <Version>0.2.0-alpha.1</Version>
+    <Description>Official .NET SDK for the CRM Solid omnichannel AI CRM platform. Strongly-typed clients for the public REST API v1 (Bearer auth): contacts, deals, tasks, finance, email inbox, Telegram + Twitter/X messaging, sequences, analytics, conversations, accounts, pipelines, AI agents, job monitor, and self-service webhooks + API keys — with scope-aware, safe-write semantics and webhook signature verification. Also HMAC-signed /public endpoints and an MCP client wrapper. Multi-targets netstandard2.0, net8.0, and net9.0.</Description>
+    <Version>0.3.0-alpha.1</Version>
+    <PackageTags>crm;crmsolid;sdk;api-client;telegram;twitter;webhooks;mcp;nuget</PackageTags>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591;NU5128</NoWarn>

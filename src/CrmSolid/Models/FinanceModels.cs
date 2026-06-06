@@ -4,6 +4,26 @@ using System.Collections.Generic;
 namespace CrmSolid.Models;
 
 /// <summary>
+/// Request body for <c>POST /v1/finance/transactions</c> (requires <c>finance:write</c>).
+/// Defaults to a completed entry dated now.
+/// </summary>
+public sealed class CreateTransactionRequest
+{
+    /// <summary>"income" or "expense" (required).</summary>
+    public string Type { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+    public string? Currency { get; set; }
+    /// <summary>"completed" (default), "pending", "refunded" or "failed".</summary>
+    public string? Status { get; set; }
+    public DateTimeOffset? OccurredAt { get; set; }
+    public string? Description { get; set; }
+    public int? CategoryId { get; set; }
+    public int? ContactId { get; set; }
+    public string? ProductName { get; set; }
+    public decimal? Fee { get; set; }
+}
+
+/// <summary>
 /// Read-only finance overview. Totals are realized (completed) only and grouped per
 /// currency — there is no FX conversion across currencies.
 /// </summary>

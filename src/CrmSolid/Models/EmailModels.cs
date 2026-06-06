@@ -45,3 +45,27 @@ public sealed record EmailThreadList
     public int? NextCursor { get; init; }
     public bool HasMore { get; init; }
 }
+
+/// <summary>
+/// Request body for <c>POST /v1/email/threads/{id}/reply</c> (requires <c>email:send</c>).
+/// Sends real mail through the user's connected mailbox.
+/// </summary>
+public sealed class EmailReplyRequest
+{
+    /// <summary>Recipients. If omitted, defaults to the thread's last inbound sender.</summary>
+    public List<string>? To { get; set; }
+    public List<string>? Cc { get; set; }
+    public List<string>? Bcc { get; set; }
+    public string? BodyText { get; set; }
+    public string? BodyHtml { get; set; }
+    /// <summary>Override the auto "Re: &lt;subject&gt;" subject line.</summary>
+    public string? SubjectOverride { get; set; }
+}
+
+/// <summary>Result of sending an email reply.</summary>
+public sealed record EmailSendResult
+{
+    public int MessageId { get; init; }
+    public int ThreadId { get; init; }
+    public string MessageIdHeader { get; init; } = string.Empty;
+}

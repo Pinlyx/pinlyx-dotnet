@@ -23,4 +23,19 @@ public static class Scopes
     public const string TasksWrite = "tasks:write";
     public const string EmailRead = "email:read";
     public const string EmailWrite = "email:write";
+
+    // Pipelines, self-service webhooks, AI agents and the job monitor.
+    public const string PipelinesRead = "pipelines:read";
+    public const string WebhooksRead = "webhooks:read";
+    public const string WebhooksWrite = "webhooks:write";
+    public const string AgentsRead = "agents:read";
+    public const string AgentsRun = "agents:run";
+    public const string JobsRead = "jobs:read";
+
+    // Powerful Tier-3 scopes — NOT granted by default; attach them deliberately.
+    // finance:write books ledger entries, email:send delivers mail, keys:manage
+    // mints/revokes API keys (a key with this can create other keys).
+    public const string FinanceWrite = "finance:write";
+    public const string EmailSend = "email:send";
+    public const string KeysManage = "keys:manage";
 }

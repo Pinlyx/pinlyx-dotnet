@@ -11,7 +11,7 @@ namespace CrmSolid.Resources;
 
 /// <summary>
 /// Email inbox threads. Backed by <c>/v1/email/threads</c>. Read with <c>email:read</c>;
-/// set status / assignee with <c>email:write</c>. There is no send operation by design.
+/// set status / assignee with <c>email:write</c>; send a reply with <c>email:send</c> (off by default).
 /// </summary>
 public sealed class EmailResource
 {
@@ -66,6 +66,18 @@ public sealed class EmailResource
             "v1/email/threads/" + id.ToString(CultureInfo.InvariantCulture) + "/assignee",
             new AssignBody(userId),
             cancellationToken);
+
+    /// <summary>
+    /// Sends a reply inside an existing thread through the user's connected mailbox.
+    /// Requires <c>email:send</c>. If <see cref="EmailReplyRequest.To"/> is omitted it
+    /// defaults to the thread's last inbound sender.
+    /// </summary>
+    public Task<EmailSendResult> ReplyAsync(int threadId, EmailReplyRequest request, CancellationToken cancellationToken = default)
+    {
+        if (request is null) throw new ArgumentNullException(nameof(request));
+        return _http.PostJsonAsync<EmailReplyRequest, EmailSendResult>(
+            "v1/email/threads/" + threadId.ToString(CultureInfo.InvariantCulture) + "/reply", request, cancellationToken);
+    }
 
     /// <summary>Streams every thread across all pages using cursor pagination.</summary>
     public async IAsyncEnumerable<EmailThread> StreamThreadsAsync(

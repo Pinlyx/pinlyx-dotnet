@@ -43,6 +43,36 @@ public sealed class CrmSolidClient
     /// <summary>Email inbox threads (<c>/v1/email/threads</c>).</summary>
     public EmailResource Email { get; }
 
+    /// <summary>Twitter (X) direct messaging (<c>/v1/twitter/messages</c>).</summary>
+    public TwitterMessagesResource TwitterMessages { get; }
+
+    /// <summary>Outbound message sequences / campaigns (<c>/v1/sequences</c>).</summary>
+    public SequencesResource Sequences { get; }
+
+    /// <summary>Read-only messaging analytics (<c>/v1/analytics/*</c>).</summary>
+    public AnalyticsResource Analytics { get; }
+
+    /// <summary>Read-only conversations (<c>/v1/conversations</c>).</summary>
+    public ConversationsResource Conversations { get; }
+
+    /// <summary>Connected Telegram + Twitter accounts (<c>/v1/accounts</c>).</summary>
+    public AccountsResource Accounts { get; }
+
+    /// <summary>Read-only pipeline boards (<c>/v1/pipelines</c>).</summary>
+    public PipelinesResource Pipelines { get; }
+
+    /// <summary>Self-service outbound webhooks (<c>/v1/webhooks</c>).</summary>
+    public WebhooksResource Webhooks { get; }
+
+    /// <summary>AI Agents — list, inspect and test (<c>/v1/ai-agents</c>).</summary>
+    public AiAgentsResource AiAgents { get; }
+
+    /// <summary>Read-only message-job monitor (<c>/v1/jobs</c>).</summary>
+    public JobsResource Jobs { get; }
+
+    /// <summary>Self-service API keys — list, mint (attenuated) and revoke (<c>/v1/api-keys</c>).</summary>
+    public ApiKeysResource ApiKeys { get; }
+
     /// <summary>MCP JSON-RPC endpoint (<c>POST /mcp</c>).</summary>
     public McpClient Mcp { get; }
 
@@ -78,6 +108,16 @@ public sealed class CrmSolidClient
         Tasks = new TasksResource(inner);
         Finance = new FinanceResource(inner);
         Email = new EmailResource(inner);
+        TwitterMessages = new TwitterMessagesResource(inner);
+        Sequences = new SequencesResource(inner);
+        Analytics = new AnalyticsResource(inner);
+        Conversations = new ConversationsResource(inner);
+        Accounts = new AccountsResource(inner);
+        Pipelines = new PipelinesResource(inner);
+        Webhooks = new WebhooksResource(inner);
+        AiAgents = new AiAgentsResource(inner);
+        Jobs = new JobsResource(inner);
+        ApiKeys = new ApiKeysResource(inner);
         Mcp = new McpClient(inner);
     }
 

@@ -18,6 +18,8 @@ public sealed class DealsResource
 
     internal sealed record StageBody(string Stage);
 
+    private static readonly object EmptyBody = new();
+
     /// <summary>Cursor-paginated deals. Pass <see cref="DealList.NextCursor"/> as <paramref name="after"/> to advance.</summary>
     public Task<DealList> ListAsync(
         int? after = null,
@@ -59,6 +61,14 @@ public sealed class DealsResource
             new StageBody(stage),
             cancellationToken);
     }
+
+    /// <summary>
+    /// Closes a deal as WON. This books an income transaction for the deal value, so it
+    /// requires BOTH <c>deals:write</c> AND <c>finance:write</c>. Idempotent.
+    /// </summary>
+    public Task<Deal> CloseAsync(int id, CancellationToken cancellationToken = default)
+        => _http.PostJsonAsync<object, Deal>(
+            "v1/deals/" + id.ToString(CultureInfo.InvariantCulture) + "/close", EmptyBody, cancellationToken);
 
     /// <summary>Streams every deal across all pages using cursor pagination.</summary>
     public async IAsyncEnumerable<Deal> StreamAllAsync(
