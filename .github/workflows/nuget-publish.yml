@@ -42,31 +42,42 @@ jobs:
       - name: Restore
         run: dotnet restore CrmSolid.sln
 
-      - name: Build (library only)
-        run: dotnet build src/CrmSolid/CrmSolid.csproj -c Release --no-restore /p:Version=${{ steps.ver.outputs.version }}
-
       - name: Test
         run: dotnet test CrmSolid.sln -c Release
+
+      - name: Build (library only)
+        run: dotnet build src/CrmSolid/CrmSolid.csproj -c Release --no-restore /p:Version=${{ steps.ver.outputs.version }}
 
       - name: Pack
         run: dotnet pack src/CrmSolid/CrmSolid.csproj -c Release --no-build -o nupkgs /p:Version=${{ steps.ver.outputs.version }}
 
+      - name: Check whether the version is already on nuget.org
+        id: published
+        shell: bash
+        run: |
+          version="${{ steps.ver.outputs.version }}"
+          lower=$(echo "$version" | tr '[:upper:]' '[:lower:]')
+          code=$(curl -s -o /dev/null -w '%{http_code}'             "https://api.nuget.org/v3-flatcontainer/crmsolid/$lower/crmsolid.$lower.nupkg")
+          if [ "$code" = "200" ]; then
+            echo "CrmSolid $version is already published, nothing to push."
+            echo "already=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Push to NuGet.org
+        if: steps.published.outputs.already == 'false'
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           if [ -z "$NUGET_API_KEY" ]; then
-            echo "NUGET_API_KEY secret is not set — aborting." >&2
+            echo "NUGET_API_KEY secret is not set, aborting." >&2
             exit 1
           fi
-          for f in nupkgs/*.nupkg nupkgs/*.snupkg; do
-            [ -f "$f" ] || continue
-            echo "Pushing $f"
-            dotnet nuget push "$f" \
-              --api-key "$NUGET_API_KEY" \
-              --source https://api.nuget.org/v3/index.json \
-              --skip-duplicate
-          done
+          # dotnet nuget push uploads the matching .snupkg alongside the .nupkg.
+          # Pushing the .snupkg separately re-submits symbols against whichever build
+          # is already live, and NuGet rejects them once the dll no longer matches.
+          dotnet nuget push nupkgs/*.nupkg             --api-key "$NUGET_API_KEY"             --source https://api.nuget.org/v3/index.json             --skip-duplicate
 
       - name: Upload nupkg artifact
         if: always()
