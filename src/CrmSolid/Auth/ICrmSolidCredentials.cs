@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace CrmSolid.Auth;
 
 /// <summary>
-/// Represents authentication material applied to outgoing CRM Solid API requests.
+/// Represents authentication material applied to outgoing Pinlyx API requests.
 /// Implementations are responsible for setting the appropriate headers
 /// (Authorization, X-API-Key + X-Signature, etc.).
 /// </summary>

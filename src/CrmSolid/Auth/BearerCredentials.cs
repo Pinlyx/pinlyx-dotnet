@@ -21,7 +21,7 @@ public sealed class BearerCredentials : ICrmSolidCredentials
             throw new ArgumentException("API key cannot be null or empty.", nameof(apiKey));
         if (!apiKey.StartsWith("csk_", StringComparison.Ordinal))
             throw new ArgumentException(
-                "API key must start with 'csk_'. Obtain a key from the CRM Solid dashboard.",
+                "API key must start with 'csk_'. Obtain a key from the Pinlyx dashboard.",
                 nameof(apiKey));
 
         _token = apiKey;

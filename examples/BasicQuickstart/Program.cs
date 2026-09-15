@@ -4,7 +4,7 @@ using CrmSolid;
 
 var apiKey = Environment.GetEnvironmentVariable("CRMSOLID_API_KEY")
     ?? throw new InvalidOperationException(
-        "Set the CRMSOLID_API_KEY environment variable to a CRM Solid API key (csk_live_...).");
+        "Set the CRMSOLID_API_KEY environment variable to a Pinlyx API key (csk_live_...).");
 
 var client = new CrmSolidClient(apiKey);
 

@@ -4,7 +4,7 @@ using CrmSolid.Models;
 
 namespace CrmSolid.Exceptions;
 
-/// <summary>Base class for all CRM Solid SDK exceptions.</summary>
+/// <summary>Base class for all Pinlyx SDK exceptions.</summary>
 public class CrmSolidException : Exception
 {
     public CrmSolidException(string message) : base(message) { }

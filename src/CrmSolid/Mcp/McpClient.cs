@@ -8,7 +8,7 @@ using CrmSolid.Http;
 namespace CrmSolid.Mcp;
 
 /// <summary>
-/// Minimal client for the CRM Solid MCP endpoint (<c>POST /mcp</c>). Speaks
+/// Minimal client for the Pinlyx MCP endpoint (<c>POST /mcp</c>). Speaks
 /// JSON-RPC 2.0 over the same bearer-authenticated channel as the REST API.
 /// </summary>
 /// <remarks>

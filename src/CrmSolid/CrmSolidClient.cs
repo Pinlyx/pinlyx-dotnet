@@ -10,7 +10,7 @@ using CrmSolid.Resources;
 namespace CrmSolid;
 
 /// <summary>
-/// Primary entry point for the CRM Solid .NET SDK. Exposes resource groups
+/// Primary entry point for the Pinlyx .NET SDK. Exposes resource groups
 /// (<see cref="Me"/>, <see cref="Contacts"/>, <see cref="TelegramMessages"/>, <see cref="Mcp"/>)
 /// over a shared <see cref="HttpClient"/>.
 /// </summary>

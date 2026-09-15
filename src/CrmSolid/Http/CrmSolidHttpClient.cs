@@ -15,7 +15,7 @@ namespace CrmSolid.Http;
 
 /// <summary>
 /// Thin wrapper over <see cref="HttpClient"/> that handles JSON serialization,
-/// error envelope parsing, and exception mapping for the CRM Solid API.
+/// error envelope parsing, and exception mapping for the Pinlyx API.
 /// </summary>
 internal sealed class CrmSolidHttpClient
 {

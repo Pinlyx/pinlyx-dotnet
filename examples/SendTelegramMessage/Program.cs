@@ -26,7 +26,7 @@ var client = new CrmSolidClient(apiKey);
 var request = new SendMessageRequest
 {
     AccountId = accountId,
-    Text = "Hello from the CRM Solid .NET SDK!",
+    Text = "Hello from the Pinlyx .NET SDK!",
 };
 if (long.TryParse(recipient, out var numericId))
     request.TelegramUserId = numericId;

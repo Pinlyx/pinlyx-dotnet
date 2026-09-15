@@ -2,7 +2,7 @@ using CrmSolid;
 using CrmSolid.Models;
 
 // Stream every contact in the workspace, on demand, across cursor pages.
-// Useful for mirroring CRM Solid contacts to another system, exporting to CSV, etc.
+// Useful for mirroring Pinlyx contacts to another system, exporting to CSV, etc.
 
 var apiKey = Environment.GetEnvironmentVariable("CRMSOLID_API_KEY")
     ?? throw new InvalidOperationException("Set CRMSOLID_API_KEY.");
