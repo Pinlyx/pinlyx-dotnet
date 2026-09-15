@@ -11,8 +11,8 @@
     <Product>Pinlyx .NET SDK</Product>
     <Copyright>Copyright (c) 2026 Pinlyx</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/CRM-Solid/pinlyx-dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/CRM-Solid/pinlyx-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Pinlyx/pinlyx-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Pinlyx/pinlyx-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>crm;crmsolid;pinlyx;api;sdk;telegram;mcp;omnichannel</PackageTags>
