@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/CrmSolid.svg)](https://www.nuget.org/packages/CrmSolid/)
 [![NuGet downloads](https://img.shields.io/nuget/dt/CrmSolid.svg)](https://www.nuget.org/packages/CrmSolid/)
-[![CI](https://github.com/CRM-Solid/crmsolid-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/CRM-Solid/crmsolid-dotnet/actions/workflows/ci.yml)
+[![CI](https://github.com/CRM-Solid/pinlyx-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/CRM-Solid/pinlyx-dotnet/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Targets](https://img.shields.io/badge/targets-netstandard2.0%20%7C%20net8.0%20%7C%20net9.0-512BD4.svg)](#)
 
@@ -347,8 +347,8 @@ pin the patch. First stable target: `1.0.0`. See [CHANGELOG.md](CHANGELOG.md).
 ## Contributing
 
 ```sh
-git clone https://github.com/CRM-Solid/crmsolid-dotnet.git
-cd crmsolid-dotnet
+git clone https://github.com/CRM-Solid/pinlyx-dotnet.git
+cd pinlyx-dotnet
 dotnet test
 ```
 

@@ -84,7 +84,7 @@ remains scope-gated and safe-write — destructive operations are still intentio
 - 23 unit tests covering auth, HMAC signing, rate-limit handler, resource shapes,
   pagination, and error mapping.
 
-[Unreleased]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.3.0-alpha.1...HEAD
-[0.3.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.2.0-alpha.1...v0.3.0-alpha.1
-[0.2.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/compare/v0.1.0-alpha.1...v0.2.0-alpha.1
-[0.1.0-alpha.1]: https://github.com/CRM-Solid/crmsolid-dotnet/releases/tag/v0.1.0-alpha.1
+[Unreleased]: https://github.com/CRM-Solid/pinlyx-dotnet/compare/v0.3.0-alpha.1...HEAD
+[0.3.0-alpha.1]: https://github.com/CRM-Solid/pinlyx-dotnet/compare/v0.2.0-alpha.1...v0.3.0-alpha.1
+[0.2.0-alpha.1]: https://github.com/CRM-Solid/pinlyx-dotnet/compare/v0.1.0-alpha.1...v0.2.0-alpha.1
+[0.1.0-alpha.1]: https://github.com/CRM-Solid/pinlyx-dotnet/releases/tag/v0.1.0-alpha.1
