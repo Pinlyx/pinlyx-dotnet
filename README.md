@@ -1,4 +1,4 @@
-# CrmSolid .NET SDK
+# Pinlyx .NET SDK
 
 [![NuGet](https://img.shields.io/nuget/v/CrmSolid.svg)](https://www.nuget.org/packages/CrmSolid/)
 [![NuGet downloads](https://img.shields.io/nuget/dt/CrmSolid.svg)](https://www.nuget.org/packages/CrmSolid/)
@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Targets](https://img.shields.io/badge/targets-netstandard2.0%20%7C%20net8.0%20%7C%20net9.0-512BD4.svg)](#)
 
-The official **.NET SDK** for the [CRM Solid](https://crmsolid.com) omnichannel AI CRM
+The official **.NET SDK** for the [Pinlyx](https://pinlyx.com) omnichannel AI CRM
 platform. It is strongly typed, scope-aware, and **safe-write by design**: it exposes the
 full public API surface — CRM, messaging, sales, finance, automation and developer tooling —
 while the operations the platform intentionally blocks (hard deletes, unscoped writes) stay
@@ -354,4 +354,4 @@ dotnet test
 
 ## License
 
-[MIT](LICENSE) © 2026 CRM Solid
+[MIT](LICENSE) © 2026 Pinlyx
